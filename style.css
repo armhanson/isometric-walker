@@ -2,7 +2,29 @@ canvas {
     display: block;
     margin: auto;
 }
+table {
+    margin: auto;
+}
 
-table, tr, td {
+h3 {
+    margin-left: 40px;
+    font-family: 'Courier New', Courier, monospace;
+}
 
+@media all and (max-width: 950px) {
+    h3 {
+        margin-left: 5px;
+        font-size: small;
+    }
+}
+
+@media all and (max-width: 700px) {
+    h3 {
+        margin-left: auto;
+    }
+
+    h2 {
+        margin: auto;
+        font-size: small;
+    }
 }
