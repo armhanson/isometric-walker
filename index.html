@@ -3,7 +3,7 @@
   <head>
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser-arcade-physics.min.js"></script>
     <link rel="stylesheet" href="style.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
     <table>
@@ -14,160 +14,225 @@
           </header>
         </td>
         <td class="inst" style="margin-left: 40px">
-            <h3>:|:</h3>
+          <h3>:|:</h3>
         </td>
         <td class="inst" style="margin-left: 40px">
-            <h3>Controls: Up - W, Down - S, Left - A, Right - D</h3>
+          <h3>Controls: Up - W, Down - S, Left - A, Right - D</h3>
         </td>
-        <td>
-          <script>
-            var config = {
-              type: Phaser.AUTO,
-              width: 800,
-              height: 600,
-              scene: {
-                preload: preload,
-                create: create,
-                update: update,
-              },
-            };
 
-            var game = new Phaser.Game(config);
+        <script>
+          var config = {
+            type: Phaser.AUTO,
+            width: 800,
+            height: 600,
+            scene: {
+              preload: preload,
+              create: create,
+              update: update,
+            },
+          };
 
-            function preload() {
-              this.load.image("backing", "assets/background/background_1.png");
-              this.load.image("grass", "assets/background/grass.png");
-              this.load.spritesheet(
-                "guy",
-                "assets/sprites/guy_anim/guy_walk_sht.png",
-                {
-                  frameWidth: 50,
-                  frameHeight: 75,
-                }
-              );
+          var game = new Phaser.Game(config);
+
+          function preload() {
+            this.load.image("backing", "assets/background/background_1.png");
+            this.load.image("grass", "assets/background/grass.png");
+            this.load.image("tree0", "assets/objects/tree0.png");
+            this.load.spritesheet(
+              "guy",
+              "assets/sprites/guy_anim/guy_walk_sht.png",
+              {
+                frameWidth: 50,
+                frameHeight: 75,
+              }
+            );
+          }
+
+          function create() {
+            this.add.image(400, 300, "backing");
+            this.add.image(400, 300, "grass");
+            this.add.image(475, 200, "tree0");
+
+            guy = this.add.sprite(75, 100, "guy");
+
+            this.anims.create({
+              key: "idle",
+              frames: this.anims.generateFrameNumbers("guy", {
+                start: 0,
+                end: 0,
+              }),
+              frameRate: 1,
+              repeat: -1,
+            });
+
+            this.anims.create({
+              key: "walk",
+              frames: this.anims.generateFrameNumbers("guy", {
+                start: 0,
+                end: 3,
+              }),
+              frameRate: 7.75,
+              repeat: -1,
+            });
+
+            cursors = this.input.keyboard.addKeys("W, S, A, D");
+
+            // treeObst = (x, y) => {
+            //     // x begins drawing from top left corner horizontally
+            //     // y begins drawing from top left corner vertically
+
+            //     // create x - 80px X y - 50px rectangle.
+            //     // connect vertical with horizontal lines at pixel corners
+            //     // to prevent passing through box borders
+            //     // and to prevent bouncing sprite in incorrect direction while
+            //     // pressing alternate cursor keys that conflict with current
+            //     // direction.
+
+            //     // horz defines the length of x
+            //     const horz = 80;
+            //     // vert defines the length of y
+            //     const vert = 50;
+
+            //     // adds x coordinate to horz length to find right corner pixel
+            //     const hLine = x+horz;
+            //     // adds y coordinate to vert length to find bottom corner pixel
+            //     const vLine = y+vert;
+
+            //     const set = new Set(x, y, hLine, vLine);
+
+            //     return Array.from(set);
+
+            // }
+          }
+
+          function update() {
+            // North, South, East, West boundaries
+            if (guy.x > 725) {
+              guy.x -= 1;
+            }
+            if (guy.x < 75) {
+              guy.x += 1;
+            }
+            if (guy.y > 475) {
+              guy.y -= 1;
+            }
+            if (guy.y < 75) {
+              guy.y += 1;
             }
 
-            function create() {
-              this.add.image(400, 300, "backing");
-              this.add.image(400, 300, "grass");
+            // Tree boundaries
 
-              guy = this.add.sprite(75, 100, "guy");
+            // if guy reaches pixel within coordinates range,
+            // guy's coordinates reverse 5 pixels away from parameter line
+            //
 
-              this.anims.create({
-                key: "idle",
-                frames: this.anims.generateFrameNumbers("guy", {
-                  start: 0,
-                  end: 0,
-                }),
-                frameRate: 1,
-                repeat: -1,
-              });
-
-              this.anims.create({
-                key: "walk",
-                frames: this.anims.generateFrameNumbers("guy", {
-                  start: 0,
-                  end: 3,
-                }),
-                frameRate: 7.75,
-                repeat: -1,
-              });
-
-              cursors = this.input.keyboard.addKeys("W, S, A, D");
-            }
-
-            function update() {
-              if (guy.x > 725) {
-                guy.x -= 1;
-              }
-              if (guy.x < 75) {
-                guy.x += 1;
-              }
-              if (guy.y > 475) {
-                guy.y -= 1;
-              }
-              if (guy.y < 75) {
-                guy.y += 1;
-              }
-
-              if (
-                cursors.A.isDown &&
-                guy.x <= 726 &&
-                guy.x >= 74 &&
-                guy.y <= 476 &&
-                guy.y >= 74
-              ) {
-                guy.x -= 1.5;
-
-                guy.anims.play("walk", true);
-              } else if (
-                cursors.D.isUp &&
-                cursors.A.isUp &&
-                cursors.S.isUp &&
-                cursors.W.isUp
-              ) {
-                guy.anims.play("walk", false);
-              }
-
-              if (
-                cursors.D.isDown &&
-                guy.x <= 726 &&
-                guy.x >= 74 &&
-                guy.y <= 476 &&
-                guy.y >= 74
-              ) {
-                guy.x += 1.5;
-
-                guy.anims.play("walk", true);
-              } else if (
-                cursors.D.isUp &&
-                cursors.A.isUp &&
-                cursors.S.isUp &&
-                cursors.W.isUp
-              ) {
-                guy.anims.play("walk", false);
-              }
-
-              if (
-                cursors.S.isDown &&
-                guy.x <= 726 &&
-                guy.x >= 74 &&
-                guy.y <= 476 &&
-                guy.y >= 74
-              ) {
-                guy.y += 1.5;
-
-                guy.anims.play("walk", true);
-              } else if (
-                cursors.D.isUp &&
-                cursors.A.isUp &&
-                cursors.S.isUp &&
-                cursors.W.isUp
-              ) {
-                guy.anims.play("walk", false);
-              }
-
-              if (
-                cursors.W.isDown &&
-                guy.x <= 726 &&
-                guy.x >= 74 &&
-                guy.y <= 476 &&
-                guy.y >= 74
-              ) {
-                guy.y -= 1.5;
-
-                guy.anims.play("walk", true);
-              } else if (
-                cursors.D.isUp &&
-                cursors.A.isUp &&
-                cursors.S.isUp &&
-                cursors.W.isUp
-              ) {
-                guy.anims.play("walk", false);
+            // moving right
+            if (guy.x > 440 && guy.x < 443 && guy.y > 220 && guy.y < 270) {
+              // RIGHT //
+              if (cursors.D.isDown) {
+                guy.x -= 3;
               }
             }
-          </script>
-        </td>
+
+            // moving left
+            if (guy.x < 520 && guy.x > 517 && guy.y > 220 && guy.y < 270) {
+              // RIGHT //
+              if (cursors.A.isDown) {
+                guy.x += 3;
+              }
+            }
+
+            // moving up
+            if (guy.y < 270 && guy.y > 267 && guy.x > 441 && guy.x < 519) {
+              if (cursors.W.isDown) {
+                guy.y += 3;
+              }
+            }
+
+            //moving down
+            if (guy.y > 220 && guy.y < 223 && guy.x > 441 && guy.x < 519) {
+              if (cursors.S.isDown) {
+                guy.y -= 3;
+              }
+            }
+
+            if (
+              cursors.A.isDown &&
+              guy.x <= 726 &&
+              guy.x >= 74 &&
+              guy.y <= 476 &&
+              guy.y >= 74
+            ) {
+              guy.x -= 1.5;
+
+              guy.anims.play("walk", true);
+            } else if (
+              cursors.D.isUp &&
+              cursors.A.isUp &&
+              cursors.S.isUp &&
+              cursors.W.isUp
+            ) {
+              guy.anims.play("walk", false);
+            }
+
+            if (
+              cursors.D.isDown &&
+              guy.x <= 726 &&
+              guy.x >= 74 &&
+              guy.y <= 476 &&
+              guy.y >= 74
+            ) {
+              guy.x += 1.5;
+
+              guy.anims.play("walk", true);
+            } else if (
+              cursors.D.isUp &&
+              cursors.A.isUp &&
+              cursors.S.isUp &&
+              cursors.W.isUp
+            ) {
+              guy.anims.play("walk", false);
+            }
+
+            if (
+              cursors.S.isDown &&
+              guy.x <= 726 &&
+              guy.x >= 74 &&
+              guy.y <= 476 &&
+              guy.y >= 74
+            ) {
+              guy.y += 1.5;
+
+              guy.anims.play("walk", true);
+            } else if (
+              cursors.D.isUp &&
+              cursors.A.isUp &&
+              cursors.S.isUp &&
+              cursors.W.isUp
+            ) {
+              guy.anims.play("walk", false);
+            }
+
+            if (
+              cursors.W.isDown &&
+              guy.x <= 726 &&
+              guy.x >= 74 &&
+              guy.y <= 476 &&
+              guy.y >= 74
+            ) {
+              guy.y -= 1.5;
+
+              guy.anims.play("walk", true);
+            } else if (
+              cursors.D.isUp &&
+              cursors.A.isUp &&
+              cursors.S.isUp &&
+              cursors.W.isUp
+            ) {
+              guy.anims.play("walk", false);
+            }
+          }
+        </script>
       </tr>
     </table>
   </body>
