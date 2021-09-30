@@ -77,6 +77,9 @@
 
             cursors = this.input.keyboard.addKeys("W, S, A, D");
 
+            /// POTENTIAL FUNCTION TO UNIVERSALLY ADD OBJECT BOUNDARIES ///
+            ////////////////// [[[ ¡NEEDS MUCH WORK! ]]] //////////////////
+
             // treeObst = (x, y) => {
             //     // x begins drawing from top left corner horizontally
             //     // y begins drawing from top left corner vertically
@@ -127,7 +130,7 @@
             //
 
             // moving right
-            if (guy.x > 440 && guy.x < 443 && guy.y > 220 && guy.y < 270) {
+            if (guy.x > 440 && guy.x < 443 && guy.y > 230 && guy.y < 260) {
               // RIGHT //
               if (cursors.D.isDown) {
                 guy.x -= 3;
@@ -135,7 +138,7 @@
             }
 
             // moving left
-            if (guy.x < 520 && guy.x > 517 && guy.y > 220 && guy.y < 270) {
+            if (guy.x < 520 && guy.x > 517 && guy.y > 230 && guy.y < 260) {
               // RIGHT //
               if (cursors.A.isDown) {
                 guy.x += 3;
@@ -143,14 +146,14 @@
             }
 
             // moving up
-            if (guy.y < 270 && guy.y > 267 && guy.x > 441 && guy.x < 519) {
+            if (guy.y < 260 && guy.y > 257 && guy.x > 441 && guy.x < 519) {
               if (cursors.W.isDown) {
                 guy.y += 3;
               }
             }
 
             //moving down
-            if (guy.y > 220 && guy.y < 223 && guy.x > 441 && guy.x < 519) {
+            if (guy.y > 230 && guy.y < 233 && guy.x > 441 && guy.x < 519) {
               if (cursors.S.isDown) {
                 guy.y -= 3;
               }
