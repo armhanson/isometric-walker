@@ -51,9 +51,10 @@
           function create() {
             this.add.image(400, 300, "backing");
             this.add.image(400, 300, "grass");
-            this.add.image(475, 200, "tree0");
+            // this.add.image(475, 200, "tree0");
 
             guy = this.add.sprite(75, 100, "guy");
+            tree0 = this.add.sprite(475, 200, "tree0");
 
             this.anims.create({
               key: "idle",
@@ -157,6 +158,19 @@
               if (cursors.S.isDown) {
                 guy.y -= 3;
               }
+            }
+            let depthSort = guy.getDepth;
+
+            // moving behind tree0
+            if (guy.y > tree0.y + 50) {
+              // tree0 sprite moves in front of guy sprite
+              // this.tree0.depth = guy.y + 1;
+              guy.setDepth(guy.y);
+            }
+            let treeReset = tree0.y + 50;
+            if (treeReset > guy.y) {
+              guy.setDepth(0);
+              tree0.setDepth(treeReset);
             }
 
             if (
