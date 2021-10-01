@@ -51,20 +51,9 @@
           function create() {
             this.add.image(400, 300, "backing");
             this.add.image(400, 300, "grass");
-            // this.add.image(475, 200, "tree0");
 
             guy = this.add.sprite(75, 100, "guy");
             tree0 = this.add.sprite(475, 200, "tree0");
-
-            this.anims.create({
-              key: "idle",
-              frames: this.anims.generateFrameNumbers("guy", {
-                start: 0,
-                end: 0,
-              }),
-              frameRate: 1,
-              repeat: -1,
-            });
 
             this.anims.create({
               key: "walk",
@@ -124,15 +113,8 @@
               guy.y += 1;
             }
 
-            // Tree boundaries
-
-            // if guy reaches pixel within coordinates range,
-            // guy's coordinates reverse 5 pixels away from parameter line
-            //
-
             // moving right
             if (guy.x > 440 && guy.x < 443 && guy.y > 230 && guy.y < 260) {
-              // RIGHT //
               if (cursors.D.isDown) {
                 guy.x -= 3;
               }
@@ -140,7 +122,6 @@
 
             // moving left
             if (guy.x < 520 && guy.x > 517 && guy.y > 230 && guy.y < 260) {
-              // RIGHT //
               if (cursors.A.isDown) {
                 guy.x += 3;
               }
@@ -153,7 +134,7 @@
               }
             }
 
-            //moving down
+            // moving down
             if (guy.y > 230 && guy.y < 233 && guy.x > 441 && guy.x < 519) {
               if (cursors.S.isDown) {
                 guy.y -= 3;
@@ -161,18 +142,21 @@
             }
             let depthSort = guy.getDepth;
 
-            // moving behind tree0
+            // sorting guy in front of tree0
             if (guy.y > tree0.y + 50) {
-              // tree0 sprite moves in front of guy sprite
-              // this.tree0.depth = guy.y + 1;
               guy.setDepth(guy.y);
             }
+
             let treeReset = tree0.y + 50;
+
+            // sorting tree0 in front of guy
             if (treeReset > guy.y) {
               guy.setDepth(0);
               tree0.setDepth(treeReset);
             }
 
+            // waling animation implement and stop,
+            // bouncing guy off game area borders
             if (
               cursors.A.isDown &&
               guy.x <= 726 &&
@@ -229,6 +213,7 @@
             ) {
               guy.anims.play("walk", false);
             }
+
 
             if (
               cursors.W.isDown &&
