@@ -113,33 +113,41 @@
               guy.y += 1;
             }
 
-            // moving right
-            if (guy.x > 440 && guy.x < 443 && guy.y > 230 && guy.y < 260) {
-              if (cursors.D.isDown) {
-                guy.x -= 3;
+            const treeParams = (obj, pc) => {
+              const px = pc.x;
+              const py = pc.y;
+              const xl = obj.x - 35;
+              const xr = obj.x + 45;
+              const yt = obj.y + 30;
+              const yb = obj.y + 60;
+
+              if (px > xl && px < xl + 3 && py >= yt && py <= yb) {
+                return pc.x = xl - 5; 
+              } else if (px < xr && px > xr - 3 && py >= yt && py <= yb) {
+                return pc.x = xr + 5;
+              } else if (py > yt && py < yt + 3 && px >= xl && px <= xr) {
+                return pc.y = yt - 5;
+              } else if (py < yb && py > yb - 3 && px >= xl && px <= xr) {
+                return pc.y = yb + 5;
               }
             }
 
-            // moving left
-            if (guy.x < 520 && guy.x > 517 && guy.y > 230 && guy.y < 260) {
-              if (cursors.A.isDown) {
-                guy.x += 3;
-              }
+            if (cursors.D.isDown) {
+              treeParams(tree0, guy);
             }
 
-            // moving up
-            if (guy.y < 260 && guy.y > 257 && guy.x > 441 && guy.x < 519) {
-              if (cursors.W.isDown) {
-                guy.y += 3;
-              }
+            if (cursors.A.isDown) {
+              treeParams(tree0, guy);
             }
 
-            // moving down
-            if (guy.y > 230 && guy.y < 233 && guy.x > 441 && guy.x < 519) {
-              if (cursors.S.isDown) {
-                guy.y -= 3;
-              }
+            if (cursors.W.isDown) {
+              treeParams(tree0, guy);
             }
+
+            if (cursors.S.isDown) {
+              treeParams(tree0, guy);
+            }
+
             let depthSort = guy.getDepth;
 
             // sorting guy in front of tree0
@@ -155,7 +163,7 @@
               tree0.setDepth(treeReset);
             }
 
-            // waling animation implement and stop,
+            // walking animation implement and stop,
             // bouncing guy off game area borders
             if (
               cursors.A.isDown &&
