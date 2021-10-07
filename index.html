@@ -113,22 +113,22 @@
               guy.y += 1;
             }
 
-            const objParams = (obj, pc) => {
-              const px = pc.x;
-              const py = pc.y;
+            const objParams = (obj, sprite) => {
+              const sx = sprite.x;
+              const sy = sprite.y;
               const xl = obj.x - 35;
               const xr = obj.x + 45;
               const yt = obj.y + 30;
               const yb = obj.y + 60;
 
-              if (px > xl && px < xl + 3 && py >= yt && py <= yb) {
-                return pc.x = xl - 5; 
-              } else if (px < xr && px > xr - 3 && py >= yt && py <= yb) {
-                return pc.x = xr + 5;
-              } else if (py > yt && py < yt + 3 && px >= xl && px <= xr) {
-                return pc.y = yt - 5;
-              } else if (py < yb && py > yb - 3 && px >= xl && px <= xr) {
-                return pc.y = yb + 5;
+              if (sx > xl && sx < xl + 3 && sy >= yt && sy <= yb) {
+                return sprite.x = xl - 5; 
+              } else if (sx < xr && sx > xr - 3 && sy >= yt && sy <= yb) {
+                return sprite.x = xr + 5;
+              } else if (sy > yt && sy < yt + 3 && sx >= xl && sx <= xr) {
+                return sprite.y = yt - 5;
+              } else if (sy < yb && sy > yb - 3 && sx >= xl && sx <= xr) {
+                return sprite.y = yb + 5;
               }
             }
 
