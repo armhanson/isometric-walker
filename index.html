@@ -113,7 +113,7 @@
               guy.y += 1;
             }
 
-            const treeParams = (obj, pc) => {
+            const objParams = (obj, pc) => {
               const px = pc.x;
               const py = pc.y;
               const xl = obj.x - 35;
@@ -133,19 +133,19 @@
             }
 
             if (cursors.D.isDown) {
-              treeParams(tree0, guy);
+              objParams(tree0, guy);
             }
 
             if (cursors.A.isDown) {
-              treeParams(tree0, guy);
+              objParams(tree0, guy);
             }
 
             if (cursors.W.isDown) {
-              treeParams(tree0, guy);
+              objParams(tree0, guy);
             }
 
             if (cursors.S.isDown) {
-              treeParams(tree0, guy);
+              objParams(tree0, guy);
             }
 
             let depthSort = guy.getDepth;
