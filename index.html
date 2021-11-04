@@ -54,6 +54,9 @@
 
             guy = this.add.sprite(75, 100, "guy");
 
+            // trees will automatically spread and the inner contents will be
+            // displayed. the array is only for my OCD and organizing
+            // collections of obstacle sprites.
             const trees = [
               (tree0 = this.add.sprite(475, 200, "tree0")),
               (tree1 = this.add.sprite(275, 260, "tree0")),
@@ -90,7 +93,7 @@
               guy.y += 1;
             }
 
-            // paramaters defining function for any path blocking objects //
+            // function for defining collision boundaries of obstacle sprites //
             const objParams = (obj, sprite) => {
               const sx = sprite.x;
               const sy = sprite.y;
@@ -110,6 +113,12 @@
               }
             };
 
+            // implementing objParams() during player sprite movement //
+            /* NOTE: in Phaser, arrays that are initiated in the create() function
+               are automatically spread for use by the update function. that is how
+               i'm using the trees array items without first accessing the inner data.
+               tree0, tree1, etc., each maintain their values and are then passed to
+               and utilized by objParams() */
             if (cursors.D.isDown) {
               objParams(tree0, guy);
               objParams(tree1, guy);
